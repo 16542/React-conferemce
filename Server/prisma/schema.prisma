@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongodb"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Conference {
+  IdConf   String  @id @default(auto()) @map("_id") @db.ObjectId
+  NameConf String  @unique
+
+  date        DateTime?
+  Location    String
+  CodeConduct String
+  Speak       Speaker   @relation(fields: [SpeakerId], references: [IdSpeaker])
+  SpeakerId   String    @db.ObjectId
+  cost        Int
+  Img String 
+}
+
+model Speaker {
+  IdSpeaker   String       @id @default(auto()) @map("_id") @db.ObjectId
+  NameSpeaker String
+  NaSpeaker   String
+  tel         String
+  img String
+  conference  Conference[]
+}
